@@ -1,0 +1,40 @@
+10.1 参考实例20，实现按照省份输出中国大学排名的功能。
+10.2 参考实例20，实现USNEWS美国大学排名的爬虫，并打印结果，
+import requests
+from bs4 import BeautifulSoup
+allUniv=[]
+def getHTMLText(url):
+      try:
+          r=requests.get(url,timeout=30)
+          r.raise_for_status()
+          r.encoding='utf-8'
+          returnr.text
+      except:
+          return''
+def fillUnivList(soup):
+data=soup.find_all('tr')
+for tr in data:
+ltd=tr.find_all('td')
+if len(ltd)==0:
+continue
+singleUniv=[]
+for td inltd:
+singleUniv.append(td.string)
+allUniv.append(singleUniv)
+def printUnivList(num):
+Univ=sorted(allUniv,key=lambdalocation:location[2])
+print("{1:^2}{2:{0}^10}{3:{0}^6}{4:{0}^4}{5:{0}^10}".form
+at(chr(12288),'排名','学校名称','省市','总分','培养规模'))
+for i in range(num):
+u=Univ[i]
+print("{1:^4}{2:{0}^10}{3:{0}^5}{4:{0}^8.1f}{5:{0}^10}".f
+ormat(chr(12288),u[0],u[1],u[2],eval(u[3]),u[6]))
+defmain(num):
+url='http://www.zuihaodaxue.cn/zuihaodaxuepaiming2016.htm
+l'
+html=getHTMLText(url)
+soup=BeautifulSoup(html,'html.parser')
+fillUnivList(soup)
+print(len(allUniv))
+printUnivList(len(allUniv))
+main(10)
